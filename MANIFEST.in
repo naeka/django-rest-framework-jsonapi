@@ -1,0 +1,11 @@
+include .travis.yml
+include LICENSE
+include README.rst
+include tox.ini
+include *.py
+include requirements.txt
+
+recursive-include tests *.py
+
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]

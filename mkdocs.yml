@@ -1,0 +1,15 @@
+site_name: Django Rest Framework JSONAPI
+site_description: Django Rest Framework tools which are compliant with the JSONAPI 1.0 specification
+repo_url: https://github.com/Naeka/django-rest-framework-jsonapi
+site_author: Naeka
+site_dir: docs/html
+theme: readthedocs
+
+pages:
+- Home: index.md
+- Usage: usage.md
+- Contributing: contributing.md
+
+markdown_extensions:
+    - toc:
+    - admonition:
