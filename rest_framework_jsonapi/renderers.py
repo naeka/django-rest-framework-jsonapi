@@ -118,7 +118,7 @@ class JsonApiAdapter(object):
             serialized_data = [serialized_data]
         included_data = []
         for item in serialized_data:
-            if isinstance(item, int):
+            if isinstance(item, six.integer_types):
                 # Only ID
                 data = self.get_included_data(
                     rel_name, item, included_serializer)
@@ -136,7 +136,6 @@ class JsonApiAdapter(object):
                     attrs, data, included_serializer, add_included=False)
                 if attrs not in self.hash.get("included"):
                     self.hash["included"].append(attrs)
-
         if self.include_nested_assoc(resource_path):
             for data in included_data:
                 relationships = self.get_relationships_data(
