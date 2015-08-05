@@ -390,3 +390,28 @@ Would return a payload like that, with the related group and creator sideloaded:
 !!! note "Note:"
     The `included` list is distinct. When building it only appends objects that aren't currently in.
     Facing the nested paradigm, this is truly effective and bandwidth savvy when rendering lists with many related data.
+
+
+## Resource type extraction
+
+JSONAPI requires a `type` key for each object.
+
+By default, this module extracts the type from the model's `Meta.object_name` field.
+This is transformed to fit JSONAPI requirements: pluralized and dasherized.
+It can be overriden by defining your own resource type extractor callback. The `model` is passed as the only one argument.
+
+```python
+# The default behaviour:
+re_camel_case = re.compile(r'(((?<=[a-z])[A-Z])|([A-Z](?![A-Z]|$)))')
+
+def get_resource_type(model):
+    return re_camel_case.sub(r" \1", model._meta.object_name + "s").strip().replace(" ", "-").lower()
+```
+
+Then you need to set it in the `REST_FRAMEWORK` settings:
+
+```python
+REST_FRAMEWORK={
+    "RESOURCE_TYPE_EXTRACTOR": "path.to.your.get_resource_type",
+}
+```
