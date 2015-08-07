@@ -270,7 +270,7 @@ Would return a payload like that:
 {
     "data": {
         "id": "1",
-        "type": "users",
+        "type": "user",
         "attributes": {
             "username": "user1",
             "email": "user1@example.com",
@@ -279,7 +279,7 @@ Would return a payload like that:
         "relationships": {
             "groups": {
                 "data": [
-                    {"id": "1", "type": "groups"}
+                    {"id": "1", "type": "group"}
                 ]
             }
         }
@@ -298,7 +298,7 @@ Would return a payload like that, with the related group sideloaded:
 {
     "data": {
         "id": "1",
-        "type": "users",
+        "type": "user",
         "attributes": {
             "username": "user1",
             "email": "user1@example.com",
@@ -307,7 +307,7 @@ Would return a payload like that, with the related group sideloaded:
         "relationships": {
             "groups": {
                 "data": [
-                    {"id": "1", "type": "groups"}
+                    {"id": "1", "type": "group"}
                 ]
             }
         }
@@ -315,13 +315,13 @@ Would return a payload like that, with the related group sideloaded:
     "included": [
         {
             "id": "1",
-            "type": "groups",
+            "type": "group",
             "attributes": {
                 "name": "group1"
             },
             "relationships": {
                 "creator": {
-                    "data": {"id": "2", "type": "users"}
+                    "data": {"id": "2", "type": "user"}
                 }
             }
         }
@@ -340,7 +340,7 @@ Would return a payload like that, with the related group and creator sideloaded:
 {
     "data": {
         "id": "1",
-        "type": "users",
+        "type": "user",
         "attributes": {
             "username": "user1",
             "email": "user1@example.com",
@@ -349,7 +349,7 @@ Would return a payload like that, with the related group and creator sideloaded:
         "relationships": {
             "groups": {
                 "data": [
-                    {"id": "1", "type": "groups"}
+                    {"id": "1", "type": "group"}
                 ]
             }
         }
@@ -357,19 +357,19 @@ Would return a payload like that, with the related group and creator sideloaded:
     "included": [
         {
             "id": "1",
-            "type": "groups",
+            "type": "group",
             "attributes": {
                 "name": "group1"
             },
             "relationships": {
                 "creator": {
-                    "data": {"id": "2", "type": "users"}
+                    "data": {"id": "2", "type": "user"}
                 }
             }
         },
         {
             "id": "2",
-            "type": "users",
+            "type": "user",
             "attributes": {
                 "username": "user2",
                 "email": "user2@example.com",
@@ -378,7 +378,7 @@ Would return a payload like that, with the related group and creator sideloaded:
             "relationships": {
                 "groups": {
                     "data": [
-                        {"id": "1", "type": "groups"}
+                        {"id": "1", "type": "group"}
                     ]
                 }
             }
