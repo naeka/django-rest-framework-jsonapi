@@ -7,9 +7,10 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 
-from tests.models import Article, Person, Comment
-from tests.serializers import (ArticleSerializer, PersonSerializer,
-                               CommentSerializer, OnlyCommentSerializer)
+from tests.models import Article, Person, Comment, TestFormattingWithABBR
+from tests.serializers import (
+    ArticleSerializer, PersonSerializer, CommentSerializer,
+    OnlyCommentSerializer, TestFormattingWithABBRSerializer)
 
 
 class Articles(viewsets.ModelViewSet):
@@ -33,6 +34,11 @@ class Comments(viewsets.ModelViewSet):
 class OnlyComments(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = OnlyCommentSerializer
+
+
+class TestFormattingWithABBRs(viewsets.ModelViewSet):
+    queryset = TestFormattingWithABBR.objects.all()
+    serializer_class = TestFormattingWithABBRSerializer
 
 
 class AnonImmediateRateThrottle(AnonRateThrottle):

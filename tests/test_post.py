@@ -14,7 +14,7 @@ pytestmark = pytest.mark.django_db
 def test_person(client):
     response = client.post(reverse("person-list"), data=json.dumps({
         "data": {
-            "type": "persons",
+            "type": "person",
             "attributes": {
                 "first-name": "Molly",
                 "last-name": "Davis",
@@ -27,7 +27,7 @@ def test_person(client):
     assert json.loads(response.content.decode()) == {
         "data": {
             "id": "1",
-            "type": "persons",
+            "type": "person",
             "attributes": {
                 "first-name": "Molly",
                 "last-name": "Davis",
@@ -46,17 +46,17 @@ def test_article(client):
     Comment.objects.create(body="Buzz' comment", author=author)
     response = client.post(reverse("article-list"), data=json.dumps({
         "data": {
-            "type": "articles",
+            "type": "article",
             "attributes": {
                 "title": "Molly's article"
             },
             "relationships": {
                 "author": {
-                    "data": {"id": "1", "type": "persons"}
+                    "data": {"id": "1", "type": "person"}
                 },
                 "comments": {
                     "data": [
-                        {"id": "1", "type": "comments"}
+                        {"id": "1", "type": "comment"}
                     ]
                 }
             }
@@ -67,17 +67,17 @@ def test_article(client):
     assert json.loads(response.content.decode()) == {
         "data": {
             "id": "1",
-            "type": "articles",
+            "type": "article",
             "attributes": {
                 "title": "Molly's article"
             },
             "relationships": {
                 "author": {
-                    "data": {"id": "1", "type": "persons"}
+                    "data": {"id": "1", "type": "person"}
                 },
                 "comments": {
                     "data": [
-                        {"id": "1", "type": "comments"}
+                        {"id": "1", "type": "comment"}
                     ]
                 }
             }

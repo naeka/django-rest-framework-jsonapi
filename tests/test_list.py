@@ -18,7 +18,7 @@ def test_one_person(client):
         "data": [
             {
                 "id": "1",
-                "type": "persons",
+                "type": "person",
                 "attributes": {
                     "first-name": "Molly",
                     "last-name": "Davis",
@@ -37,7 +37,7 @@ def test_more_persons(client):
         "data": [
             {
                 "id": "1",
-                "type": "persons",
+                "type": "person",
                 "attributes": {
                     "first-name": "Molly",
                     "last-name": "Davis",
@@ -46,7 +46,7 @@ def test_more_persons(client):
             },
             {
                 "id": "2",
-                "type": "persons",
+                "type": "person",
                 "attributes": {
                     "first-name": "Buzz",
                     "last-name": "Lightyear",
@@ -65,7 +65,7 @@ def test_one_comment_with_sideloaded_author(client):
         "data": [
             {
                 "id": "1",
-                "type": "comments",
+                "type": "comment",
                 "attributes": {
                     "body": "Molly's comment"
                 },
@@ -73,7 +73,7 @@ def test_one_comment_with_sideloaded_author(client):
                     "author": {
                         "data": {
                             "id": "1",
-                            "type": "persons"
+                            "type": "person"
                         }
                     }
                 }
@@ -82,7 +82,7 @@ def test_one_comment_with_sideloaded_author(client):
         "included": [
             {
                 "id": "1",
-                "type": "persons",
+                "type": "person",
                 "attributes": {
                     "first-name": "Molly",
                     "last-name": "Davis",
@@ -103,7 +103,7 @@ def test_more_comments_with_sideloaded_authors(client):
         "data": [
             {
                 "id": "1",
-                "type": "comments",
+                "type": "comment",
                 "attributes": {
                     "body": "Molly's comment"
                 },
@@ -111,14 +111,14 @@ def test_more_comments_with_sideloaded_authors(client):
                     "author": {
                         "data": {
                             "id": "1",
-                            "type": "persons"
+                            "type": "person"
                         }
                     }
                 }
             },
             {
                 "id": "2",
-                "type": "comments",
+                "type": "comment",
                 "attributes": {
                     "body": "Buzz' comment"
                 },
@@ -126,7 +126,7 @@ def test_more_comments_with_sideloaded_authors(client):
                     "author": {
                         "data": {
                             "id": "2",
-                            "type": "persons"
+                            "type": "person"
                         }
                     }
                 }
@@ -135,7 +135,7 @@ def test_more_comments_with_sideloaded_authors(client):
         "included": [
             {
                 "id": "1",
-                "type": "persons",
+                "type": "person",
                 "attributes": {
                     "first-name": "Molly",
                     "last-name": "Davis",
@@ -144,7 +144,7 @@ def test_more_comments_with_sideloaded_authors(client):
             },
             {
                 "id": "2",
-                "type": "persons",
+                "type": "person",
                 "attributes": {
                     "first-name": "Buzz",
                     "last-name": "Lightyear",

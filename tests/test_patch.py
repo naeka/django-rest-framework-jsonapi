@@ -23,15 +23,15 @@ def test_article(client):
         reverse("article-detail", args=[article.id]), data=json.dumps({
             "data": {
                 "id": six.text_type(article.id),
-                "type": "articles",
+                "type": "article",
                 "attributes": {
                     "title": "Molly's updated article"
                 },
                 "relationships": {
                     "comments": {
                         "data": [
-                            {"id": "1", "type": "comments"},
-                            {"id": "2", "type": "comments"}
+                            {"id": "1", "type": "comment"},
+                            {"id": "2", "type": "comment"}
                         ]
                     }
                 }
@@ -42,18 +42,18 @@ def test_article(client):
     assert json.loads(response.content.decode()) == {
         "data": {
             "id": "1",
-            "type": "articles",
+            "type": "article",
             "attributes": {
                 "title": "Molly's updated article"
             },
             "relationships": {
                 "author": {
-                    "data": {"id": "1", "type": "persons"}
+                    "data": {"id": "1", "type": "person"}
                 },
                 "comments": {
                     "data": [
-                        {"id": "1", "type": "comments"},
-                        {"id": "2", "type": "comments"}
+                        {"id": "1", "type": "comment"},
+                        {"id": "2", "type": "comment"}
                     ]
                 }
             }

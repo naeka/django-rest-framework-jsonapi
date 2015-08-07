@@ -4,10 +4,7 @@ from django.conf import settings
 from django.utils.encoding import force_text
 from rest_framework.compat import importlib
 from rest_framework.serializers import ListSerializer, ManyRelatedField
-import re
-
-
-re_camel_case = re.compile(r'(((?<=[a-z])[A-Z])|([A-Z](?![A-Z]|$)))')
+from inflection import underscore, dasherize
 
 
 def get_serializer(serializer):
@@ -41,6 +38,4 @@ def get_resource_type(model):
                    "'RESOURCE_TYPE_EXTRACTOR'. {}: {}.".format(
                        RESOURCE_TYPE_EXTRACTOR, e.__class__.__name__, e))
             raise ImportError(msg)
-    return force_text(
-        re_camel_case.sub(r" \1", model._meta.object_name + "s")
-        .strip().replace(" ", "-").lower())
+    return force_text(dasherize(underscore(model._meta.object_name)).strip())

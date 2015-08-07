@@ -141,7 +141,7 @@ class JsonApiAdapter(object):
                 relationships = self.get_relationships_data(
                     data, included_serializer)
                 for rel_name, relationship in six.iteritems(relationships):
-                    self.add_included(rel_name, relationship)
+                    self.add_included(rel_name, relationship, resource_path)
 
     def get_included_serializer(self, serializer, rel_name):
         return getattr(serializer.Meta, "include", {}).get(rel_name)
@@ -196,7 +196,8 @@ class JsonApiAdapter(object):
             return False
         include_opt = include_opt.split(",")
         for opt in include_opt:
-            if re.match(r"^{}".format(assoc.replace(".", "\.")), opt):
+            if re.match(r"^{}".format(
+                    dasherize(assoc.replace(".", "\."))), opt):
                 return True
         return False
 

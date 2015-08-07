@@ -21,7 +21,7 @@ def test_no_pagination_if_all_results(client):
         "data": [
             {
                 "id": "1",
-                "type": "articles",
+                "type": "article",
                 "attributes": {
                     "title": "Molly's article"
                 },
@@ -29,7 +29,7 @@ def test_no_pagination_if_all_results(client):
                     "author": {
                         "data": {
                             "id": "1",
-                            "type": "persons"
+                            "type": "person"
                         }
                     },
                     "comments": {
@@ -39,7 +39,7 @@ def test_no_pagination_if_all_results(client):
             },
             {
                 "id": "2",
-                "type": "articles",
+                "type": "article",
                 "attributes": {
                     "title": "Buzz' article"
                 },
@@ -47,7 +47,7 @@ def test_no_pagination_if_all_results(client):
                     "author": {
                         "data": {
                             "id": "2",
-                            "type": "persons"
+                            "type": "person"
                         }
                     },
                     "comments": {
@@ -83,7 +83,7 @@ def test_page_number(client):
             "data": [
                 {
                     "id": "1",
-                    "type": "articles",
+                    "type": "article",
                     "attributes": {
                         "title": "Molly's article"
                     },
@@ -91,7 +91,7 @@ def test_page_number(client):
                         "author": {
                             "data": {
                                 "id": "1",
-                                "type": "persons"
+                                "type": "person"
                             }
                         },
                         "comments": {
@@ -101,7 +101,7 @@ def test_page_number(client):
                 },
                 {
                     "id": "2",
-                    "type": "articles",
+                    "type": "article",
                     "attributes": {
                         "title": "Buzz' article"
                     },
@@ -109,7 +109,7 @@ def test_page_number(client):
                         "author": {
                             "data": {
                                 "id": "2",
-                                "type": "persons"
+                                "type": "person"
                             }
                         },
                         "comments": {
@@ -119,7 +119,7 @@ def test_page_number(client):
                 },
                 {
                     "id": "3",
-                    "type": "articles",
+                    "type": "article",
                     "attributes": {
                         "title": "Sid's article"
                     },
@@ -127,7 +127,7 @@ def test_page_number(client):
                         "author": {
                             "data": {
                                 "id": "3",
-                                "type": "persons"
+                                "type": "person"
                             }
                         },
                         "comments": {
@@ -154,7 +154,7 @@ def test_page_number(client):
             "data": [
                 {
                     "id": "4",
-                    "type": "articles",
+                    "type": "article",
                     "attributes": {
                         "title": "Bo's article"
                     },
@@ -162,7 +162,7 @@ def test_page_number(client):
                         "author": {
                             "data": {
                                 "id": "4",
-                                "type": "persons"
+                                "type": "person"
                             }
                         },
                         "comments": {
@@ -193,7 +193,7 @@ def test_limit_offset(client):
             "data": [
                 {
                     "id": "1",
-                    "type": "persons",
+                    "type": "person",
                     "attributes": {
                         "first-name": "Molly",
                         "last-name": "Davis",
@@ -202,7 +202,7 @@ def test_limit_offset(client):
                 },
                 {
                     "id": "2",
-                    "type": "persons",
+                    "type": "person",
                     "attributes": {
                         "first-name": "Buzz",
                         "last-name": "Lightyear",
@@ -211,7 +211,7 @@ def test_limit_offset(client):
                 },
                 {
                     "id": "3",
-                    "type": "persons",
+                    "type": "person",
                     "attributes": {
                         "first-name": "Sid",
                         "last-name": "Phillips",
@@ -235,7 +235,7 @@ def test_limit_offset(client):
             "data": [
                 {
                     "id": "4",
-                    "type": "persons",
+                    "type": "person",
                     "attributes": {
                         "first-name": "Bo",
                         "last-name": "Peep",
@@ -267,7 +267,7 @@ def test_cursor_and_sideloading(client):
             "data": [
                 {
                     "id": "1",
-                    "type": "comments",
+                    "type": "comment",
                     "attributes": {
                         "body": "Molly's comment"
                     },
@@ -275,14 +275,14 @@ def test_cursor_and_sideloading(client):
                         "author": {
                             "data": {
                                 "id": "1",
-                                "type": "persons"
+                                "type": "person"
                             }
                         }
                     }
                 },
                 {
                     "id": "2",
-                    "type": "comments",
+                    "type": "comment",
                     "attributes": {
                         "body": "Buzz' comment"
                     },
@@ -290,14 +290,14 @@ def test_cursor_and_sideloading(client):
                         "author": {
                             "data": {
                                 "id": "2",
-                                "type": "persons"
+                                "type": "person"
                             }
                         }
                     }
                 },
                 {
                     "id": "3",
-                    "type": "comments",
+                    "type": "comment",
                     "attributes": {
                         "body": "Sid's comment"
                     },
@@ -305,7 +305,7 @@ def test_cursor_and_sideloading(client):
                         "author": {
                             "data": {
                                 "id": "3",
-                                "type": "persons"
+                                "type": "person"
                             }
                         }
                     }
@@ -314,7 +314,7 @@ def test_cursor_and_sideloading(client):
             "included": [
                 {
                     "id": "1",
-                    "type": "persons",
+                    "type": "person",
                     "attributes": {
                         "first-name": "Molly",
                         "last-name": "Davis",
@@ -323,7 +323,7 @@ def test_cursor_and_sideloading(client):
                 },
                 {
                     "id": "2",
-                    "type": "persons",
+                    "type": "person",
                     "attributes": {
                         "first-name": "Buzz",
                         "last-name": "Lightyear",
@@ -332,7 +332,7 @@ def test_cursor_and_sideloading(client):
                 },
                 {
                     "id": "3",
-                    "type": "persons",
+                    "type": "person",
                     "attributes": {
                         "first-name": "Sid",
                         "last-name": "Phillips",
@@ -350,7 +350,7 @@ def test_cursor_and_sideloading(client):
         "data": [
             {
                 "id": "4",
-                "type": "comments",
+                "type": "comment",
                 "attributes": {
                     "body": "Bo's comment"
                 },
@@ -358,7 +358,7 @@ def test_cursor_and_sideloading(client):
                     "author": {
                         "data": {
                             "id": "4",
-                            "type": "persons"
+                            "type": "person"
                         }
                     }
                 }
@@ -367,7 +367,7 @@ def test_cursor_and_sideloading(client):
         "included": [
             {
                 "id": "4",
-                "type": "persons",
+                "type": "person",
                 "attributes": {
                     "first-name": "Bo",
                     "last-name": "Peep",

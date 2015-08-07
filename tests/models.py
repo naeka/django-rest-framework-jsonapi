@@ -16,3 +16,7 @@ class Article(models.Model):
     title = models.CharField(max_length=64)
     author = models.ForeignKey(Person)
     comments = models.ManyToManyField(Comment)
+
+
+class TestFormattingWithABBR(models.Model):
+    unique_comment = models.ForeignKey(Comment)

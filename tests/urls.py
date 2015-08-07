@@ -4,8 +4,8 @@ from django.conf.urls import url
 from rest_framework import routers
 
 from tests.views import (
-    Articles, People, Comments, OnlyComments, throttled_view,
-    validation_error_view, errored_view
+    Articles, People, Comments, OnlyComments, TestFormattingWithABBRs,
+    throttled_view, validation_error_view, errored_view
 )
 
 
@@ -15,6 +15,8 @@ router.register(r"articles", Articles)
 router.register(r"people", People)
 router.register(r"comments", Comments)
 router.register(r"only-comments", OnlyComments, base_name="only-comment")
+router.register(r"formatting", TestFormattingWithABBRs,
+                base_name="formatting")
 
 urlpatterns = router.urls + [
     url(r"^throttled-view$", throttled_view, name="throttled-view"),

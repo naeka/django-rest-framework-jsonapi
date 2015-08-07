@@ -17,7 +17,7 @@ def test_person(client):
     assert json.loads(response.content.decode()) == {
         "data": {
             "id": "1",
-            "type": "persons",
+            "type": "person",
             "attributes": {
                 "first-name": "Molly",
                 "last-name": "Davis",
@@ -37,17 +37,17 @@ def test_article(client):
     assert json.loads(response.content.decode()) == {
         "data": {
             "id": "1",
-            "type": "articles",
+            "type": "article",
             "attributes": {
                 "title": "Molly's article"
             },
             "relationships": {
                 "author": {
-                    "data": {"id": "1", "type": "persons"}
+                    "data": {"id": "1", "type": "person"}
                 },
                 "comments": {
                     "data": [
-                        {"id": "1", "type": "comments"}
+                        {"id": "1", "type": "comment"}
                     ]
                 }
             }
@@ -67,17 +67,17 @@ def test_article_with_sideloaded_data(client):
     assert json.loads(response.content.decode()) == {
         "data": {
             "id": "1",
-            "type": "articles",
+            "type": "article",
             "attributes": {
                 "title": "Molly's article"
             },
             "relationships": {
                 "author": {
-                    "data": {"id": "1", "type": "persons"}
+                    "data": {"id": "1", "type": "person"}
                 },
                 "comments": {
                     "data": [
-                        {"id": "1", "type": "comments"}
+                        {"id": "1", "type": "comment"}
                     ]
                 }
             }
@@ -85,7 +85,7 @@ def test_article_with_sideloaded_data(client):
         "included": [
             {
                 "id": "1",
-                "type": "persons",
+                "type": "person",
                 "attributes": {
                     "first-name": "Molly",
                     "last-name": "Davis",
@@ -94,13 +94,13 @@ def test_article_with_sideloaded_data(client):
             },
             {
                 "id": "1",
-                "type": "comments",
+                "type": "comment",
                 "attributes": {
                     "body": "Buzz' comment"
                 },
                 "relationships": {
                     "author": {
-                        "data": {"id": "2", "type": "persons"}
+                        "data": {"id": "2", "type": "person"}
                     }
                 }
             }
@@ -120,17 +120,17 @@ def test_article_with_nested_sideloaded_data(client):
     assert json.loads(response.content.decode()) == {
         "data": {
             "id": "1",
-            "type": "articles",
+            "type": "article",
             "attributes": {
                 "title": "Molly's article"
             },
             "relationships": {
                 "author": {
-                    "data": {"id": "1", "type": "persons"}
+                    "data": {"id": "1", "type": "person"}
                 },
                 "comments": {
                     "data": [
-                        {"id": "1", "type": "comments"}
+                        {"id": "1", "type": "comment"}
                     ]
                 }
             }
@@ -138,7 +138,7 @@ def test_article_with_nested_sideloaded_data(client):
         "included": [
             {
                 "id": "1",
-                "type": "persons",
+                "type": "person",
                 "attributes": {
                     "first-name": "Molly",
                     "last-name": "Davis",
@@ -147,19 +147,19 @@ def test_article_with_nested_sideloaded_data(client):
             },
             {
                 "id": "1",
-                "type": "comments",
+                "type": "comment",
                 "attributes": {
                     "body": "Buzz' comment"
                 },
                 "relationships": {
                     "author": {
-                        "data": {"id": "2", "type": "persons"}
+                        "data": {"id": "2", "type": "person"}
                     }
                 }
             },
             {
                 "id": "2",
-                "type": "persons",
+                "type": "person",
                 "attributes": {
                     "first-name": "Buzz",
                     "last-name": "Lightyear",
@@ -181,7 +181,7 @@ def test_comment_with_sideloaded_data_and_include_missing_in_meta(client):
     assert json.loads(response.content.decode()) == {
         "data": {
             "id": "1",
-            "type": "comments",
+            "type": "comment",
             "attributes": {
                 "body": "Buzz' comment"
             },
@@ -189,7 +189,7 @@ def test_comment_with_sideloaded_data_and_include_missing_in_meta(client):
                 "author": {
                     "data": {
                         "id": "1",
-                        "type": "persons"
+                        "type": "person"
                     }
                 }
             }
