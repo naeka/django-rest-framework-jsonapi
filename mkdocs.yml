@@ -11,5 +11,6 @@ pages:
 - Contributing: contributing.md
 
 markdown_extensions:
-    - toc:
-    - admonition:
+    - toc
+    - admonition
+    - smarty

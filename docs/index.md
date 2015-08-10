@@ -5,6 +5,9 @@
     <a href="https://pypi.python.org/pypi/drf-jsonapi">
         <img src="https://img.shields.io/pypi/v/drf-jsonapi.svg">
     </a>
+    <a href='http://django-rest-framework-jsonapi.rtfd.org'>
+        <img src='https://readthedocs.org/projects/django-rest-framework-jsonapi/badge/?version=stable' />
+    </a>
 </div>
 
 ---
@@ -16,6 +19,8 @@
 ## Overview
 
 Django Rest Framework tools which are compliant with the JSONAPI 1.0 specification
+
+Documentation: [django-rest-framework-jsonapi.rtfd.org](http://django-rest-framework-jsonapi.rtfd.org)
 
 ## Requirements
 
@@ -62,7 +67,7 @@ from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
 # Serializers define the API representation.
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "url", "username", "email", "is_staff")

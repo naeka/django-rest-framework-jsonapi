@@ -223,13 +223,12 @@ REST_FRAMEWORK={
 
 ## Sideloading
 
-JSONAPI is a flat format. Thus, relations can't be nested.
+JSONAPI is a **flat** format. Thus, relations can't be nested.
 
 If you want to query `users`, you'll get zero, one or more users with their attributes and relationships described.
 To retrieve user's `groups` or `profile` relationships, you can fetch them from their own endpoints.
 
 Unfortunately, in some cases, this led to numerous queries. To avoid this, you can use sideloading.
-
 Sideloadling provides a distinct flat list of a specific payload related data.
 
 Django Rest Framework JSONAPI allows the configuration of included relationships per serializer.
@@ -397,15 +396,21 @@ Would return a payload like that, with the related group and creator sideloaded:
 JSONAPI requires a `type` key for each object.
 
 By default, this module extracts the type from the model's `Meta.object_name` field.
-This is transformed to fit JSONAPI requirements: pluralized and dasherized.
+This is transformed to fit JSONAPI requirements: it is dasherized but not pluralized.
+As stated by JSONAPI specification, inflection rules are handled by developers:
+
+> This spec is agnostic about inflection rules, so the value of type can be either plural or singular. However, the same value should be used consistently throughout an implementation.
+>
+> -- [JSONAPI specification](http://jsonapi.org/format/#document-resource-object-identification)
+
 It can be overriden by defining your own resource type extractor callback. The `model` is passed as the only one argument.
 
 ```python
 # The default behaviour:
-re_camel_case = re.compile(r'(((?<=[a-z])[A-Z])|([A-Z](?![A-Z]|$)))')
+from inflection import underscore, dasherize
 
 def get_resource_type(model):
-    return re_camel_case.sub(r" \1", model._meta.object_name + "s").strip().replace(" ", "-").lower()
+    return dasherize(underscore(model._meta.object_name)).strip()
 ```
 
 Then you need to set it in the `REST_FRAMEWORK` settings:

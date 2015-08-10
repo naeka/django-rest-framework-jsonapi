@@ -26,6 +26,8 @@ $ tox
 
 ## Documentation
 
+The documentation is browsable on Read the Docs: [django-rest-framework-jsonapi.rtfd.org](http://django-rest-framework-jsonapi.rtfd.org)
+
 To build the documentation, you'll need to install `mkdocs`.
 
 ```bash

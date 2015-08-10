@@ -77,7 +77,7 @@ setup(
     package_data=get_package_data(package),
     install_requires=['inflection>=0.3.1', 'djangorestframework>=3.1.0'],
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',

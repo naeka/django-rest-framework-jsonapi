@@ -1,12 +1,14 @@
 drf-jsonapi
 ======================================
 
-|build-status-image| |pypi-version|
+|build-status-image| |pypi-version| |read-the-docs|
 
 Overview
 --------
 
-Django Rest Framework tools which are compliant with the JSONAPI 1.0 specification
+Django Rest Framework tools which are compliant with the JSONAPI 1.0 specification.
+
+Documentation: `django-rest-framework-jsonapi.rtfd.org`_
 
 Requirements
 ------------
@@ -23,11 +25,6 @@ Install using ``pip``\ …
 .. code:: bash
 
     $ pip install drf-jsonapi
-
-Example
--------
-
-TODO: Write example.
 
 Testing
 -------
@@ -55,6 +52,8 @@ globally, and then simply run:
 Documentation
 -------------
 
+The documentation is browsable on Read the Docs: `django-rest-framework-jsonapi.rtfd.org`_
+
 To build the documentation, you’ll need to install ``mkdocs``.
 
 .. code:: bash
@@ -75,8 +74,11 @@ To build the documentation:
     $ mkdocs build
 
 .. _tox: http://tox.readthedocs.org/en/latest/
+.. _django-rest-framework-jsonapi.rtfd.org: http://django-rest-framework-jsonapi.rtfd.org/
 
 .. |build-status-image| image:: https://secure.travis-ci.org/Naeka/django-rest-framework-jsonapi.svg?branch=master
    :target: http://travis-ci.org/Naeka/django-rest-framework-jsonapi?branch=master
 .. |pypi-version| image:: https://img.shields.io/pypi/v/drf-jsonapi.svg
    :target: https://pypi.python.org/pypi/drf-jsonapi
+.. |read-the-docs| image:: https://readthedocs.org/projects/django-rest-framework-jsonapi/badge/?version=stable
+   :target: http://django-rest-framework-jsonapi.rtfd.org
