@@ -48,4 +48,5 @@ def exception_handler(exc, context):
                 })
 
     response.data = errors
+    context['view'].is_errored = True
     return response

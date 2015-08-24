@@ -33,6 +33,20 @@ def test_serializer(client):
     } in response_data["errors"]
 
 
+def test_unauthorized_on_list(client):
+    response = client.get(reverse("auth-people-list"))
+    assert response.status_code == 403
+    response_data = json.loads(response.content.decode())
+    assert len(response_data["errors"]) is 1
+    assert {
+        "status": "403",
+        "source": {
+            "pointer": "/data"
+        },
+        "detail": "Authentication credentials were not provided."
+    } in response_data["errors"]
+
+
 def test_not_found(client):
     response = client.get(reverse("person-detail", args=[42]),
                           content_type="application/vnd.api+json")

@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework_jsonapi.pagination import (
     PageNumberPagination, LimitOffsetPagination, CursorPagination)
 from rest_framework.decorators import api_view, throttle_classes
@@ -13,6 +13,11 @@ from tests.serializers import (
     OnlyCommentSerializer, TestFormattingWithABBRSerializer)
 
 
+class DenyPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return False
+
+
 class Articles(viewsets.ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
@@ -23,6 +28,12 @@ class People(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
     pagination_class = LimitOffsetPagination
+
+
+class AuthenticatedPeople(viewsets.ModelViewSet):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
+    permission_classes = (DenyPermission,)
 
 
 class Comments(viewsets.ModelViewSet):

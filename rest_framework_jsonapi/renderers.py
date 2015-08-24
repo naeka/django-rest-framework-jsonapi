@@ -19,20 +19,22 @@ class JsonApiRenderer(JSONRenderer):
         """Convert serialized response data to JSONAPI"""
         self.view = renderer_context.get("view", None)
         self.request = renderer_context.get("request", None)
-        if self.view and hasattr(self.view, 'action') and \
-           self.view.action == 'list':
-            if isinstance(data, (dict, OrderedDict)) and "data" in data:
-                self.hash = data
-                self.hash["data"] = JsonApiAdapter(
-                    self, data["data"]).serializable_hash()
-            else:
-                self.hash = JsonApiAdapter(self, data).serializable_hash()
+        if getattr(self.view, 'is_errored', False):
+            self.hash = {"errors": data}
         else:
-            if hasattr(data, "serializer"):
-                self.hash = JsonApiAdapter(self, data).serializable_hash()
+            if self.view and hasattr(self.view, 'action') and \
+               self.view.action == 'list':
+                if isinstance(data, (dict, OrderedDict)) and "data" in data:
+                    self.hash = data
+                    self.hash["data"] = JsonApiAdapter(
+                        self, data["data"]).serializable_hash()
+                else:
+                    self.hash = JsonApiAdapter(self, data).serializable_hash()
             else:
-                # Errors
-                self.hash = {"errors": data}
+                if hasattr(data, "serializer"):
+                    self.hash = JsonApiAdapter(self, data).serializable_hash()
+                else:
+                    self.hash = data
 
         return super(JsonApiRenderer, self).render(
             data=self.hash, accepted_media_type=accepted_media_type,

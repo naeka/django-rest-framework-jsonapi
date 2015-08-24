@@ -4,8 +4,9 @@ from django.conf.urls import url
 from rest_framework import routers
 
 from tests.views import (
-    Articles, People, Comments, OnlyComments, TestFormattingWithABBRs,
-    throttled_view, validation_error_view, errored_view
+    Articles, People, AuthenticatedPeople, Comments, OnlyComments,
+    TestFormattingWithABBRs, throttled_view, validation_error_view,
+    errored_view
 )
 
 
@@ -13,6 +14,7 @@ router = routers.DefaultRouter(trailing_slash=False)
 
 router.register(r"articles", Articles)
 router.register(r"people", People)
+router.register(r"auth-people", AuthenticatedPeople, base_name="auth-people")
 router.register(r"comments", Comments)
 router.register(r"only-comments", OnlyComments, base_name="only-comment")
 router.register(r"formatting", TestFormattingWithABBRs,
