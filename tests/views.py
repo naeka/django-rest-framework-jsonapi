@@ -10,7 +10,9 @@ from rest_framework.response import Response
 from tests.models import Article, Person, Comment, TestFormattingWithABBR
 from tests.serializers import (
     ArticleSerializer, PersonSerializer, CommentSerializer,
-    OnlyCommentSerializer, TestFormattingWithABBRSerializer)
+    ImproperlyConfiguredReadOnlyAuthorCommentSerializer,
+    ReadOnlyAuthorCommentSerializer, OnlyCommentSerializer,
+    TestFormattingWithABBRSerializer)
 
 
 class DenyPermission(permissions.BasePermission):
@@ -45,6 +47,16 @@ class Comments(viewsets.ModelViewSet):
 class OnlyComments(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = OnlyCommentSerializer
+
+
+class ImproperlyConfiguredReadOnlyAuthorComments(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = ImproperlyConfiguredReadOnlyAuthorCommentSerializer
+
+
+class ReadOnlyAuthorComments(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = ReadOnlyAuthorCommentSerializer
 
 
 class TestFormattingWithABBRs(viewsets.ModelViewSet):

@@ -31,6 +31,28 @@ class OnlyCommentSerializer(serializers.ModelSerializer):
         model = Comment
 
 
+class ImproperlyConfiguredReadOnlyAuthorCommentSerializer(
+        serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        read_only_fields = ("author",)
+        include = {
+            "author": PersonSerializer(),
+        }
+
+
+class ReadOnlyAuthorCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        read_only_fields = ("author",)
+        include = {
+            "author": PersonSerializer(),
+        }
+        model_map = {
+            "author": Person,
+        }
+
+
 class TestFormattingWithABBRSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestFormattingWithABBR

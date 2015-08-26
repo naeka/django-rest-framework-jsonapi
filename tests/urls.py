@@ -5,6 +5,7 @@ from rest_framework import routers
 
 from tests.views import (
     Articles, People, AuthenticatedPeople, Comments, OnlyComments,
+    ImproperlyConfiguredReadOnlyAuthorComments, ReadOnlyAuthorComments,
     TestFormattingWithABBRs, throttled_view, validation_error_view,
     errored_view
 )
@@ -17,6 +18,11 @@ router.register(r"people", People)
 router.register(r"auth-people", AuthenticatedPeople, base_name="auth-people")
 router.register(r"comments", Comments)
 router.register(r"only-comments", OnlyComments, base_name="only-comment")
+router.register(r"ic-read-only-author-comments",
+                ImproperlyConfiguredReadOnlyAuthorComments,
+                base_name="ic-read-only-author-comment")
+router.register(r"read-only-author-comments", ReadOnlyAuthorComments,
+                base_name="read-only-author-comment")
 router.register(r"formatting", TestFormattingWithABBRs,
                 base_name="formatting")
 

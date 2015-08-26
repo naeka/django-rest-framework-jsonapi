@@ -195,3 +195,39 @@ def test_comment_with_sideloaded_data_and_include_missing_in_meta(client):
             }
         }
     }
+
+
+def test_comment_with_sideloaded_data_and_read_only_author(client):
+    buzz = Person.objects.create(last_name="Lightyear", first_name="Buzz")
+    Comment.objects.create(body="Buzz' comment", author=buzz)
+    response = client.get("{}?include=author".format(
+        reverse("read-only-author-comment-detail", args=[1])))
+
+    assert json.loads(response.content.decode()) == {
+        "data": {
+            "id": "1",
+            "type": "comment",
+            "attributes": {
+                "body": "Buzz' comment"
+            },
+            "relationships": {
+                "author": {
+                    "data": {
+                        "id": "1",
+                        "type": "person"
+                    }
+                }
+            }
+        },
+        "included": [
+            {
+                "id": "1",
+                "type": "person",
+                "attributes": {
+                    "first-name": "Buzz",
+                    "last-name": "Lightyear",
+                    "twitter": ""
+                }
+            }
+        ]
+    }

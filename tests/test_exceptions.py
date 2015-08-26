@@ -1,10 +1,13 @@
 from __future__ import unicode_literals
 
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ImproperlyConfigured
 from django.utils import six
 
 import json
 import pytest
+
+from tests.models import Person, Comment
 
 
 pytestmark = pytest.mark.django_db
@@ -120,3 +123,11 @@ def test_unhandled_exception(client):
     with pytest.raises(NotImplementedError):
         client.get(reverse("errored-view"),
                    content_type="application/vnd.api+json")
+
+
+def test_improperly_configured_model_map_exception(client):
+    buzz = Person.objects.create(last_name="Lightyear", first_name="Buzz")
+    Comment.objects.create(body="Buzz' comment", author=buzz)
+    with pytest.raises(ImproperlyConfigured):
+        client.get("{}?include=author".format(
+            reverse("ic-read-only-author-comment-detail", args=[1])))

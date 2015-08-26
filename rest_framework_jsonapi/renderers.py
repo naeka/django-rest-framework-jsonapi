@@ -225,5 +225,5 @@ class JsonApiAdapter(object):
                 }
                 related_field = get_serializer(field)
                 relationships[field_name]["type"] = get_resource_type(
-                    get_model(related_field))
+                    get_model(related_field, field_name, serializer))
         return relationships

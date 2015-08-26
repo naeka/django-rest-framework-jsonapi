@@ -420,3 +420,23 @@ REST_FRAMEWORK={
     "RESOURCE_TYPE_EXTRACTOR": "path.to.your.get_resource_type",
 }
 ```
+
+
+### Model retrieval
+
+The related model is determined from the serializer relation's `queryset` attribute.
+
+If this attribute is `None` (for read-only fields for example), a `model_map` must be defined in the serializer's `Meta`:
+
+```python
+class ReadOnlyAuthorCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        read_only_fields = ("author",)
+        include = {
+            "author": PersonSerializer(),
+        }
+        model_map = {
+            "author": Person,
+        }
+```

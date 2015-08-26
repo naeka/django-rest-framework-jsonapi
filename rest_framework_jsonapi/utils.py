@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.utils.encoding import force_text
+from django.core.exceptions import ImproperlyConfigured
 from rest_framework.compat import importlib
 from rest_framework.serializers import ListSerializer, ManyRelatedField
 from inflection import underscore, dasherize
@@ -15,13 +16,17 @@ def get_serializer(serializer):
     return serializer
 
 
-def get_model(obj):
-    model = getattr(obj, "model", None)
-    if model:
-        return model
-    queryset = getattr(obj, "queryset", None)
+def get_model(related_field, field_name, serializer):
+    queryset = getattr(related_field, "queryset", None)
     if queryset is not None:
         return queryset.model
+    model = getattr(serializer.Meta, 'model_map', {}).get(field_name)
+    if model:
+        return model
+    raise ImproperlyConfigured(
+        "Related fields that do not have a queryset attribute "
+        "(eg. read_only fields) must define the related model in the "
+        "serializer's `model_map` attribute.")
 
 
 def get_resource_type(model):
