@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 
 import json
 import pytest
+import rest_framework
 
 from tests.models import Article, Person, Comment
 
@@ -181,7 +182,7 @@ def test_limit_offset(client):
     Person.objects.create(last_name="Phillips", first_name="Sid")
     Person.objects.create(last_name="Peep", first_name="Bo")
     response = client.get(reverse("person-list"))
-    assert json.loads(response.content.decode()) == {
+    expected = {
         "links": {
             "prev": None,
             "next": "http://testserver/people?page%5Boffset%5D=3"
@@ -221,9 +222,14 @@ def test_limit_offset(client):
             ]
         }
     }
+    # Limit is always included since DRF 3.2 (35c28a2)
+    if rest_framework.__version__.split(".")[1] >= "2":
+        expected["links"]["next"] = "http://testserver/people?page%5Blimit%5D"\
+                                    "=3&page%5Boffset%5D=3"
+    assert json.loads(response.content.decode()) == expected
 
     next_response = client.get("http://testserver/people?page%5Boffset%5D=3")
-    assert json.loads(next_response.content.decode()) == {
+    expected = {
         "links": {
             "prev": "http://testserver/people",
             "next": None
@@ -245,6 +251,10 @@ def test_limit_offset(client):
             ]
         }
     }
+    # Limit is always included since DRF 3.2 (35c28a2)
+    if rest_framework.__version__.split(".")[1] >= "2":
+        expected["links"]["prev"] += "?page%5Blimit%5D=3"
+    assert json.loads(next_response.content.decode()) == expected
 
 
 def test_cursor_and_sideloading(client):
