@@ -193,7 +193,7 @@ class JsonApiAdapter(object):
         return self.check_assoc("{}.".format(assoc))
 
     def check_assoc(self, assoc):
-        include_opt = self.renderer.request.QUERY_PARAMS.get("include")
+        include_opt = self.renderer.request.query_params.get("include")
         if not include_opt:
             return False
         include_opt = include_opt.split(",")
