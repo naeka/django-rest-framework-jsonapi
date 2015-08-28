@@ -75,7 +75,7 @@ setup(
     author_email=author_email,
     packages=get_packages(package),
     package_data=get_package_data(package),
-    install_requires=['inflection>=0.3.1', 'djangorestframework>=3.1.0,<3.2'],
+    install_requires=['inflection>=0.3.1', 'djangorestframework>=3.1,<3.3'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
