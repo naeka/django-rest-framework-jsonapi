@@ -24,9 +24,9 @@ Documentation: [django-rest-framework-jsonapi.rtfd.org](http://django-rest-frame
 
 ## Requirements
 
-* Python (2.7, 3.4)
-* Django (1.6, 1.7, 1.8)
-* Django Rest Framework 3.1
+* Python (2.7, 3.5) *-- Should work with 3.4 and 3.3 but not tested*
+* Django (1.8, 1.9) *-- Only latest minor versions are tested*
+* Django Rest Framework (3.1 to 3.3) *-- Only latest minor versions are tested*
 
 ## Installation
 
