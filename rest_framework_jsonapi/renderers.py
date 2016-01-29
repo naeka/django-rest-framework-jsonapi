@@ -1,11 +1,11 @@
 from __future__ import unicode_literals
 
+from collections import OrderedDict
 from django.utils import six
 from django.utils.encoding import force_text
 
 from rest_framework.renderers import JSONRenderer
 from rest_framework.relations import RelatedField, ManyRelatedField
-from rest_framework.compat import OrderedDict
 from inflection import dasherize
 import re
 

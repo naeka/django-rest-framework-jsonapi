@@ -18,5 +18,5 @@ class Article(models.Model):
     comments = models.ManyToManyField(Comment)
 
 
-class TestFormattingWithABBR(models.Model):
+class FormattingWithABBR(models.Model):
     unique_comment = models.ForeignKey(Comment)

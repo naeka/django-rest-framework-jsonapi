@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 import json
 import pytest
 
-from tests.models import Person, Comment, TestFormattingWithABBR
+from tests.models import Person, Comment, FormattingWithABBR
 
 
 pytestmark = pytest.mark.django_db
@@ -14,12 +14,12 @@ pytestmark = pytest.mark.django_db
 def test_type_formatting(client):
     buzz = Person.objects.create(last_name="Lightyear", first_name="Buzz")
     comment = Comment.objects.create(body="Buzz' comment", author=buzz)
-    TestFormattingWithABBR.objects.create(unique_comment=comment)
+    FormattingWithABBR.objects.create(unique_comment=comment)
     response = client.get(reverse("formatting-detail", args=[1]))
     assert json.loads(response.content.decode()) == {
         "data": {
             "id": "1",
-            "type": "test-formatting-with-abbr",
+            "type": "formatting-with-abbr",
             "relationships": {
                 "unique-comment": {
                     "data": {
@@ -35,13 +35,13 @@ def test_type_formatting(client):
 def test_included_query_argument_formatting(client):
     buzz = Person.objects.create(last_name="Lightyear", first_name="Buzz")
     comment = Comment.objects.create(body="Buzz' comment", author=buzz)
-    TestFormattingWithABBR.objects.create(unique_comment=comment)
+    FormattingWithABBR.objects.create(unique_comment=comment)
     response = client.get("{}?include=unique-comment".format(
         reverse("formatting-detail", args=[1])))
     assert json.loads(response.content.decode()) == {
         "data": {
             "id": "1",
-            "type": "test-formatting-with-abbr",
+            "type": "formatting-with-abbr",
             "relationships": {
                 "unique-comment": {
                     "data": {

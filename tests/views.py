@@ -7,12 +7,12 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 
-from tests.models import Article, Person, Comment, TestFormattingWithABBR
+from tests.models import Article, Person, Comment, FormattingWithABBR
 from tests.serializers import (
     ArticleSerializer, PersonSerializer, CommentSerializer,
     ImproperlyConfiguredReadOnlyAuthorCommentSerializer,
     ReadOnlyAuthorCommentSerializer, OnlyCommentSerializer,
-    TestFormattingWithABBRSerializer)
+    FormattingWithABBRSerializer)
 
 
 class DenyPermission(permissions.BasePermission):
@@ -59,9 +59,9 @@ class ReadOnlyAuthorComments(viewsets.ModelViewSet):
     serializer_class = ReadOnlyAuthorCommentSerializer
 
 
-class TestFormattingWithABBRs(viewsets.ModelViewSet):
-    queryset = TestFormattingWithABBR.objects.all()
-    serializer_class = TestFormattingWithABBRSerializer
+class FormattingWithABBRs(viewsets.ModelViewSet):
+    queryset = FormattingWithABBR.objects.all()
+    serializer_class = FormattingWithABBRSerializer
 
 
 class AnonImmediateRateThrottle(AnonRateThrottle):

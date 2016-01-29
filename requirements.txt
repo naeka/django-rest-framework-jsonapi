@@ -1,6 +1,6 @@
 # Minimum Django, REST framework and inflection version
-Django>=1.6,<1.9.0
-djangorestframework>=3.1.0
+Django>=1.8,<1.10.0
+djangorestframework>=3.1,<3.4
 inflection==0.3.1
 
 # Test requirements

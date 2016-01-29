@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
+from collections import OrderedDict
 from rest_framework.response import Response
-from rest_framework.compat import OrderedDict
 from rest_framework.utils.urls import remove_query_param, replace_query_param
 from rest_framework.pagination import (
     PageNumberPagination as DrfPageNumberPagination,
