@@ -64,10 +64,11 @@ We're ready to create our API now. Here's our project's root `urls.py` module:
 ```python
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
-from rest_framework import routers, serializers, viewsets
+from rest_framework import routers, viewsets
+from rest_framework_jsonapi.serializers import JsonApiSerializer
 
 # Serializers define the API representation.
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(JsonApiSerializer):
     class Meta:
         model = User
         fields = ("id", "url", "username", "email", "is_staff")

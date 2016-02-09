@@ -1,4 +1,5 @@
 from django.db import models
+from polymorphic.models import PolymorphicModel
 
 
 class Person(models.Model):
@@ -20,3 +21,23 @@ class Article(models.Model):
 
 class FormattingWithABBR(models.Model):
     unique_comment = models.ForeignKey(Comment)
+
+
+class BaseOrganization(PolymorphicModel):
+    name = models.CharField(max_length=128)
+
+
+class Company(BaseOrganization):
+    pass
+
+
+class Association(BaseOrganization):
+    pass
+
+
+class Individual(models.Model):
+    first_name = models.CharField(max_length=128)
+    last_name = models.CharField(max_length=128)
+    organization = models.ForeignKey('BaseOrganization', null=True, blank=True)
+    other_organizations = models.ManyToManyField(
+        'BaseOrganization', null=True, blank=True)

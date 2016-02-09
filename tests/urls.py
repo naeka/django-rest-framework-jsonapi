@@ -6,7 +6,7 @@ from rest_framework import routers
 from tests.views import (
     Articles, People, AuthenticatedPeople, Comments, OnlyComments,
     ImproperlyConfiguredReadOnlyAuthorComments, ReadOnlyAuthorComments,
-    FormattingWithABBRs, throttled_view, validation_error_view,
+    FormattingWithABBRs, Individuals, throttled_view, validation_error_view,
     errored_view
 )
 
@@ -25,6 +25,7 @@ router.register(r"read-only-author-comments", ReadOnlyAuthorComments,
                 base_name="read-only-author-comment")
 router.register(r"formatting", FormattingWithABBRs,
                 base_name="formatting")
+router.register(r"individuals", Individuals)
 
 urlpatterns = router.urls + [
     url(r"^throttled-view$", throttled_view, name="throttled-view"),

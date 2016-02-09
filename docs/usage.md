@@ -5,12 +5,27 @@
 
 !!! note "JSONAPI specification is more than just a serialization format"
 
-    Even if we're only using DRF renderers here, JSONAPI resources must be designed consequently: complex resources with nested
-    serializers or containing any other related field than `PrimaryKeyRelatedField` are not supported since they would excessively
-    mess the rendering process.
+    Although we're mainly using DRF renderers here, JSONAPI resources must be designed consequently: complex resources with nested
+    serializers or containing any other related field than `JsonApiPrimaryKeyRelatedField` (see below) are not supported since they
+    would excessively mess the rendering process.
 
     That way, if you need to expose both conventional API and JSONAPI, please do not rely on DRF's content negociation and implement
     different API aside, according to your needs. Your stack will be much simpler.
+
+## Serializer
+
+According to the JSONAPI specification, we have to keep track of each object `type` and include it into the payload.
+Based on how DRF works, it's quite impossible to include the correct type by just using a renderer.
+
+drf-jsonapi brings two utilities to efficiently work with types:
+
+- `JsonApiSerializerMixin`: Mixin which handles the resource type and affects it to a private key of the payload
+- `JsonApiPrimaryKeyRelatedField`: Used as the default serializer related field by `JsonApiSerializerMixin`. Keep track of each related object type.
+
+
+Alongside, the `JsonApiSerializer` class inherits from both `JsonApiSerializerMixin` and `rest_framework.serializers.ModelSerializer`.
+You can use either the mixin or the serialiser at your convenience.
+
 
 ## Renderer and parser classes
 
@@ -424,19 +439,19 @@ REST_FRAMEWORK={
 
 ### Model retrieval
 
-The related model is determined from the serializer relation's `queryset` attribute.
+The related model is determined from each object during the serialization process.
 
-If this attribute is `None` (for read-only fields for example), a `model_map` must be defined in the serializer's `Meta`:
+That way, polymorphic models types are correctly determined. However, in this case, ensure that the correct serializer
+is used by overriding `to_representation` like this:
 
 ```python
-class ReadOnlyAuthorCommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        read_only_fields = ("author",)
-        include = {
-            "author": PersonSerializer(),
-        }
-        model_map = {
-            "author": Person,
-        }
+def to_representation(self, instance):
+    # Handle polymorphism
+    if isinstance(instance, Company):
+        return CompanySerializer(
+            instance, context=self.context).to_representation(instance)
+    elif isinstance(instance, Association):
+        return AssociationSerializer(
+            instance, context=self.context).to_representation(instance)
+    return super(OrganizationSerializer, self).to_representation(instance)
 ```

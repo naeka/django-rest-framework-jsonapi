@@ -1,15 +1,17 @@
 from __future__ import unicode_literals
 
-from rest_framework import serializers
-from tests.models import Article, Person, Comment, FormattingWithABBR
+from rest_framework_jsonapi.serializers import JsonApiSerializer
+from tests.models import (
+    Article, Person, Comment, FormattingWithABBR, Individual, BaseOrganization,
+    Company, Association)
 
 
-class PersonSerializer(serializers.ModelSerializer):
+class PersonSerializer(JsonApiSerializer):
     class Meta:
         model = Person
 
 
-class CommentSerializer(serializers.ModelSerializer):
+class CommentSerializer(JsonApiSerializer):
     class Meta:
         model = Comment
         include = {
@@ -17,7 +19,7 @@ class CommentSerializer(serializers.ModelSerializer):
         }
 
 
-class ArticleSerializer(serializers.ModelSerializer):
+class ArticleSerializer(JsonApiSerializer):
     class Meta:
         model = Article
         include = {
@@ -26,13 +28,13 @@ class ArticleSerializer(serializers.ModelSerializer):
         }
 
 
-class OnlyCommentSerializer(serializers.ModelSerializer):
+class OnlyCommentSerializer(JsonApiSerializer):
     class Meta:
         model = Comment
 
 
 class ImproperlyConfiguredReadOnlyAuthorCommentSerializer(
-        serializers.ModelSerializer):
+        JsonApiSerializer):
     class Meta:
         model = Comment
         read_only_fields = ("author",)
@@ -41,21 +43,55 @@ class ImproperlyConfiguredReadOnlyAuthorCommentSerializer(
         }
 
 
-class ReadOnlyAuthorCommentSerializer(serializers.ModelSerializer):
+class ReadOnlyAuthorCommentSerializer(JsonApiSerializer):
     class Meta:
         model = Comment
         read_only_fields = ("author",)
         include = {
             "author": PersonSerializer(),
         }
-        model_map = {
-            "author": Person,
-        }
 
 
-class FormattingWithABBRSerializer(serializers.ModelSerializer):
+class FormattingWithABBRSerializer(JsonApiSerializer):
     class Meta:
         model = FormattingWithABBR
         include = {
             "unique_comment": CommentSerializer(),
+        }
+
+
+class CompanySerializer(JsonApiSerializer):
+    class Meta:
+        model = Company
+        exclude = ('polymorphic_ctype',)
+
+
+class AssociationSerializer(JsonApiSerializer):
+    class Meta:
+        model = Association
+        exclude = ('polymorphic_ctype',)
+
+
+class OrganizationSerializer(JsonApiSerializer):
+    class Meta:
+        model = BaseOrganization
+        exclude = ('polymorphic_ctype',)
+
+    def to_representation(self, instance):
+        # Handle polymorphism
+        if isinstance(instance, Company):
+            return CompanySerializer(
+                instance, context=self.context).to_representation(instance)
+        elif isinstance(instance, Association):
+            return AssociationSerializer(
+                instance, context=self.context).to_representation(instance)
+        return super(OrganizationSerializer, self).to_representation(instance)
+
+
+class IndividualSerializer(JsonApiSerializer):
+    class Meta:
+        model = Individual
+        include = {
+            "organization": OrganizationSerializer(),
+            "other_organizations": OrganizationSerializer(),
         }

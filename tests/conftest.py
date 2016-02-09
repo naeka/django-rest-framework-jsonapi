@@ -30,6 +30,7 @@ def pytest_configure():
             'django.contrib.messages',
             'django.contrib.staticfiles',
 
+            'polymorphic',
             'rest_framework',
             'rest_framework.authtoken',
             'tests',

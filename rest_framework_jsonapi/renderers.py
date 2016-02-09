@@ -9,7 +9,7 @@ from rest_framework.relations import RelatedField, ManyRelatedField
 from inflection import dasherize
 import re
 
-from .utils import get_serializer, get_model, get_resource_type
+from .utils import get_serializer
 
 
 class JsonApiRenderer(JSONRenderer):
@@ -82,14 +82,10 @@ class JsonApiAdapter(object):
             })
         if relationship.get("data"):
             for data in relationship.get("data"):
-                try:
-                    rel_id = data.get("id")  # Serialized data
-                except AttributeError:
-                    rel_id = data  # Only IDs
                 resource["relationships"][dash_name]["data"].append(
                     OrderedDict([
-                        ("id", force_text(rel_id)),
-                        ("type", relationship.get("type")),
+                        ("id", force_text(data.get("id"))),
+                        ("type", data.get("_drf_jsonapi_type")),
                     ])
                 )
 
@@ -99,15 +95,12 @@ class JsonApiAdapter(object):
             resource["relationships"][dash_name] = OrderedDict({
                 "data": None
             })
-        if relationship.get("data"):
-            try:
-                rel_id = relationship.get("data").get("id")  # Serialized data
-            except AttributeError:
-                rel_id = relationship.get("data")  # Only ID
+        data = relationship.get("data")
+        if data:
             resource["relationships"][dasherize(rel_name)]["data"] = \
                 OrderedDict([
-                    ("id", force_text(rel_id)),
-                    ("type", relationship.get("type")),
+                    ("id", force_text(data.get("id"))),
+                    ("type", data.get("_drf_jsonapi_type")),
                 ])
 
     def add_included(self, rel_name, relationship, parent=None):
@@ -124,6 +117,11 @@ class JsonApiAdapter(object):
                 # Only ID
                 data = self.get_included_data(
                     rel_name, item, included_serializer)
+                if data:
+                    included_data.append(data)
+            if isinstance(item, OrderedDict) and hasattr(item, '_is_related'):
+                data = self.get_included_data(
+                    rel_name, item.get("id"), included_serializer)
                 if data:
                     included_data.append(data)
 
@@ -166,7 +164,7 @@ class JsonApiAdapter(object):
         attributes = self.get_attributes_data(obj, serializer)
         result = OrderedDict([
             ("id", force_text(attributes.pop("id"))),
-            ("type", attributes.pop("type")),
+            ("type", obj.get('_drf_jsonapi_type')),
         ])
         if attributes:
             result["attributes"] = attributes
@@ -204,10 +202,7 @@ class JsonApiAdapter(object):
         return False
 
     def get_attributes_data(self, obj, serializer):
-        model = serializer.Meta.model
-        resource_type = get_resource_type(model)
-        attributes = OrderedDict([("id", None), ("type", resource_type)])
-
+        attributes = OrderedDict([])
         for field_name, field in six.iteritems(serializer.get_fields()):
             if isinstance(field, (RelatedField, ManyRelatedField)):
                 continue
@@ -223,7 +218,4 @@ class JsonApiAdapter(object):
                     "parent_serializer": serializer,
                     "data": serialized_data.get(field_name)
                 }
-                related_field = get_serializer(field)
-                relationships[field_name]["type"] = get_resource_type(
-                    get_model(related_field, field_name, serializer))
         return relationships
