@@ -47,6 +47,18 @@ def test_unauthorized_on_list(client):
     } in response_data["errors"]
 
 
+def test_bypassed_exception_handler(client):
+    response = client.post(
+        reverse("bypassed-exception-handler-people-list"), data=json.dumps({
+            "incorrect-key": {}
+        }), content_type="application/vnd.api+json")
+    assert response.status_code == 400
+    response_data = json.loads(response.content.decode())
+    assert len(response_data) is 2
+    assert response_data["first_name"] == ["This field is required."]
+    assert response_data["last_name"] == ["This field is required."]
+
+
 def test_not_found(client):
     response = client.get(reverse("person-detail", args=[42]),
                           content_type="application/vnd.api+json")

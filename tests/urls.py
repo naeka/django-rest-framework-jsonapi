@@ -4,10 +4,10 @@ from django.conf.urls import url
 from rest_framework import routers
 
 from tests.views import (
-    Articles, People, AuthenticatedPeople, Comments, OnlyComments,
-    ImproperlyConfiguredReadOnlyAuthorComments, ReadOnlyAuthorComments,
-    FormattingWithABBRs, Individuals, throttled_view, validation_error_view,
-    errored_view
+    Articles, People, AuthenticatedPeople, BypassedExceptionHandlerPeople,
+    Comments, OnlyComments, ImproperlyConfiguredReadOnlyAuthorComments,
+    ReadOnlyAuthorComments, FormattingWithABBRs, Individuals, throttled_view,
+    validation_error_view, errored_view
 )
 
 
@@ -16,6 +16,8 @@ router = routers.DefaultRouter(trailing_slash=False)
 router.register(r"articles", Articles)
 router.register(r"people", People)
 router.register(r"auth-people", AuthenticatedPeople, base_name="auth-people")
+router.register(r"bypassed-handler-people", BypassedExceptionHandlerPeople,
+                base_name="bypassed-exception-handler-people")
 router.register(r"comments", Comments)
 router.register(r"only-comments", OnlyComments, base_name="only-comment")
 router.register(r"ic-read-only-author-comments",

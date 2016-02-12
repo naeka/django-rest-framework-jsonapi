@@ -7,6 +7,9 @@ from inflection import dasherize
 
 def exception_handler(exc, context):
     response = drf_exception_handler(exc, context)
+    if getattr(context.get('view'), 'bypass_jsonapi_exception_handler', False):
+        context['view'].is_errored = True
+        return response
     if response is None:
         # Unhandled exceptions will raise a 500 error.
         return
@@ -47,6 +50,6 @@ def exception_handler(exc, context):
                     "status": six.text_type(response.status_code),
                 })
 
-    response.data = errors
+    response.data = {"errors": errors}
     context['view'].is_errored = True
     return response

@@ -39,6 +39,13 @@ class AuthenticatedPeople(viewsets.ModelViewSet):
     permission_classes = (DenyPermission,)
 
 
+class BypassedExceptionHandlerPeople(viewsets.ModelViewSet):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
+    pagination_class = LimitOffsetPagination
+    bypass_jsonapi_exception_handler = True
+
+
 class Comments(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer

@@ -235,6 +235,9 @@ REST_FRAMEWORK={
     Exceptions that does not inherit from `APIException`, `Http404` or `PermissionDenied` does not
     generate responses but `HTTP 500` errors.
 
+However, if you expose both JSONAPI and regular endpoints, you may want to use DRF's exception handler instead of this one.
+In that case, you can define `bypass_jsonapi_exception_handler = True` on your view to directly return the default error payload.
+
 
 ## Sideloading
 

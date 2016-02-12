@@ -20,7 +20,7 @@ class JsonApiRenderer(JSONRenderer):
         self.view = renderer_context.get("view", None)
         self.request = renderer_context.get("request", None)
         if getattr(self.view, 'is_errored', False):
-            self.hash = {"errors": data}
+            self.hash = data
         else:
             if self.view and hasattr(self.view, 'action') and \
                self.view.action == 'list':
@@ -113,12 +113,6 @@ class JsonApiAdapter(object):
             serialized_data = [serialized_data]
         included_data = []
         for item in serialized_data:
-            if isinstance(item, six.integer_types):
-                # Only ID
-                data = self.get_included_data(
-                    rel_name, item, included_serializer)
-                if data:
-                    included_data.append(data)
             if isinstance(item, OrderedDict) and hasattr(item, '_is_related'):
                 data = self.get_included_data(
                     rel_name, item.get("id"), included_serializer)
