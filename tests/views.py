@@ -11,6 +11,7 @@ from tests.models import (
     Article, Person, Comment, FormattingWithABBR, Individual)
 from tests.serializers import (
     ArticleSerializer, PersonSerializer, CommentSerializer,
+    ValidLazyCommentSerializer, InvalidLazyCommentSerializer,
     ImproperlyConfiguredReadOnlyAuthorCommentSerializer,
     ReadOnlyAuthorCommentSerializer, OnlyCommentSerializer,
     FormattingWithABBRSerializer, IndividualSerializer)
@@ -55,6 +56,16 @@ class Comments(viewsets.ModelViewSet):
 class OnlyComments(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = OnlyCommentSerializer
+
+
+class ValidLazyComments(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = ValidLazyCommentSerializer
+
+
+class InvalidLazyComments(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = InvalidLazyCommentSerializer
 
 
 class ImproperlyConfiguredReadOnlyAuthorComments(viewsets.ModelViewSet):

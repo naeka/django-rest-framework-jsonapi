@@ -5,9 +5,10 @@ from rest_framework import routers
 
 from tests.views import (
     Articles, People, AuthenticatedPeople, BypassedExceptionHandlerPeople,
-    Comments, OnlyComments, ImproperlyConfiguredReadOnlyAuthorComments,
-    ReadOnlyAuthorComments, FormattingWithABBRs, Individuals, throttled_view,
-    validation_error_view, errored_view
+    Comments, OnlyComments, ValidLazyComments, InvalidLazyComments,
+    ImproperlyConfiguredReadOnlyAuthorComments, ReadOnlyAuthorComments,
+    FormattingWithABBRs, Individuals, throttled_view, validation_error_view,
+    errored_view
 )
 
 
@@ -20,6 +21,10 @@ router.register(r"bypassed-handler-people", BypassedExceptionHandlerPeople,
                 base_name="bypassed-exception-handler-people")
 router.register(r"comments", Comments)
 router.register(r"only-comments", OnlyComments, base_name="only-comment")
+router.register(r"valid-lazy-comments", ValidLazyComments,
+                base_name="valid-lazy-comment")
+router.register(r"invalid-lazy-comments", InvalidLazyComments,
+                base_name="invalid-lazy-comment")
 router.register(r"ic-read-only-author-comments",
                 ImproperlyConfiguredReadOnlyAuthorComments,
                 base_name="ic-read-only-author-comment")

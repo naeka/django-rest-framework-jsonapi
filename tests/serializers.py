@@ -19,6 +19,27 @@ class CommentSerializer(JsonApiSerializer):
         }
 
 
+class OnlyCommentSerializer(JsonApiSerializer):
+    class Meta:
+        model = Comment
+
+
+class ValidLazyCommentSerializer(JsonApiSerializer):
+    class Meta:
+        model = Comment
+        include = {
+            "author": "tests.serializers.PersonSerializer",
+        }
+
+
+class InvalidLazyCommentSerializer(JsonApiSerializer):
+    class Meta:
+        model = Comment
+        include = {
+            "author": "tests.serializers.InvalidPersonSerializer",
+        }
+
+
 class ArticleSerializer(JsonApiSerializer):
     class Meta:
         model = Article
@@ -26,11 +47,6 @@ class ArticleSerializer(JsonApiSerializer):
             "author": PersonSerializer(),
             "comments": CommentSerializer(),
         }
-
-
-class OnlyCommentSerializer(JsonApiSerializer):
-    class Meta:
-        model = Comment
 
 
 class ImproperlyConfiguredReadOnlyAuthorCommentSerializer(

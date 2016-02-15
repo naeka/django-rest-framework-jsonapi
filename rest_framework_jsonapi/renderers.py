@@ -9,7 +9,7 @@ from rest_framework.relations import RelatedField, ManyRelatedField
 from inflection import dasherize
 import re
 
-from .utils import get_serializer
+from .utils import get_serializer, import_serializer
 
 
 class JsonApiRenderer(JSONRenderer):
@@ -138,7 +138,10 @@ class JsonApiAdapter(object):
                     self.add_included(rel_name, relationship, resource_path)
 
     def get_included_serializer(self, serializer, rel_name):
-        return getattr(serializer.Meta, "include", {}).get(rel_name)
+        serializer = getattr(serializer.Meta, "include", {}).get(rel_name)
+        if isinstance(serializer, six.string_types):
+            serializer = import_serializer(serializer)
+        return serializer
 
     def get_included_data(self, rel_name, pk, included_serializer):
         model = included_serializer.Meta.model

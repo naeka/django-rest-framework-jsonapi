@@ -30,3 +30,14 @@ def get_resource_type(model):
                        RESOURCE_TYPE_EXTRACTOR, e.__class__.__name__, e))
             raise ImportError(msg)
     return force_text(dasherize(underscore(model._meta.object_name)).strip())
+
+
+def import_serializer(path):
+    try:
+        parts = path.split(".")
+        module_path, class_name = ".".join(parts[:-1]), parts[-1]
+        module = importlib.import_module(module_path)
+        return getattr(module, class_name)()
+    except (ImportError, AttributeError):
+        raise ImportError("Could not import serializer '{}' from {}".format(
+            class_name, path))

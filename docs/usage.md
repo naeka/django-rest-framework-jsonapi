@@ -262,8 +262,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "username", "email", "is_staff", "groups")
+        # Lazy loaded thanks to an import path. Useful to avoid circular imports.
         include = {
-            "groups": GroupSerializer(),
+            "groups": "path.to.GroupSerializer",
         }
 
 
@@ -271,6 +272,7 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = ("id", "name", "creator")
+        # Directly instanciated, more efficient.
         include = {
             "creator": UserSerializer(),
         }
