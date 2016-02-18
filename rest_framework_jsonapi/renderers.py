@@ -25,9 +25,14 @@ class JsonApiRenderer(JSONRenderer):
             if self.view and hasattr(self.view, 'action') and \
                self.view.action == 'list':
                 if isinstance(data, (dict, OrderedDict)) and "data" in data:
+                    # Pagination is present
+                    adapter_hash = JsonApiAdapter(
+                        self, data.pop("data")).serializable_hash()
                     self.hash = data
-                    self.hash["data"] = JsonApiAdapter(
-                        self, data["data"]).serializable_hash()
+                    self.hash["jsonapi"] = adapter_hash.pop("jsonapi")
+                    self.hash["data"] = adapter_hash.pop("data")
+                    if "included" in adapter_hash:
+                        self.hash["included"] = adapter_hash.pop("included")
                 else:
                     self.hash = JsonApiAdapter(self, data).serializable_hash()
             else:
@@ -49,7 +54,10 @@ class JsonApiAdapter(object):
             self.serializer = get_serializer(serializer)
         else:
             self.serializer = get_serializer(serialized_data.serializer)
-        self.hash = OrderedDict({"data": []})
+        self.hash = OrderedDict([
+            ("jsonapi", OrderedDict([("version", "1.0")])),
+            ("data", [])
+        ])
         self.included_set = set()
 
     def serializable_hash(self):

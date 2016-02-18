@@ -64,6 +64,9 @@ def test_not_found(client):
                           content_type="application/vnd.api+json")
     assert response.status_code == 404
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "errors": [
             {
                 "status": "404",
@@ -81,6 +84,9 @@ def test_method_not_allowed(client):
                            content_type="application/vnd.api+json")
     assert response.status_code == 405
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "errors": [
             {
                 "status": "405",
@@ -98,6 +104,9 @@ def test_throttling(client):
                            content_type="application/vnd.api+json")
     assert response.status_code == 429
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "errors": [
             {
                 "status": "429",
@@ -116,6 +125,9 @@ def test_validation_error(client):
                           content_type="application/vnd.api+json")
     assert response.status_code == 400
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "errors": [
             {
                 "status": "400",

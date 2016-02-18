@@ -15,6 +15,9 @@ def test_person(client):
     Person.objects.create(last_name="Davis", first_name="Molly")
     response = client.get(reverse("person-detail", args=[1]))
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": {
             "id": "1",
             "type": "person",
@@ -35,6 +38,9 @@ def test_article(client):
     article.comments.add(comment)
     response = client.get(reverse("article-detail", args=[1]))
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": {
             "id": "1",
             "type": "article",
@@ -65,6 +71,9 @@ def test_article_with_sideloaded_data(client):
         reverse("article-detail", args=[1])))
 
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": {
             "id": "1",
             "type": "article",
@@ -118,6 +127,9 @@ def test_article_with_nested_sideloaded_data(client):
         reverse("article-detail", args=[1])))
 
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": {
             "id": "1",
             "type": "article",
@@ -179,6 +191,9 @@ def test_comment_with_sideloaded_data_and_include_missing_in_meta(client):
     # Can't determine nested serializer.
     # Thus should not have the included person.
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": {
             "id": "1",
             "type": "comment",
@@ -204,6 +219,9 @@ def test_comment_with_sideloaded_data_and_read_only_author(client):
         reverse("read-only-author-comment-detail", args=[1])))
 
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": {
             "id": "1",
             "type": "comment",

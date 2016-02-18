@@ -15,6 +15,9 @@ def test_one_person(client):
     Person.objects.create(last_name="Davis", first_name="Molly")
     response = client.get(reverse("person-list"))
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": [
             {
                 "id": "1",
@@ -34,6 +37,9 @@ def test_more_persons(client):
     Person.objects.create(last_name="Lightyear", first_name="Buzz")
     response = client.get(reverse("person-list"))
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": [
             {
                 "id": "1",
@@ -62,6 +68,9 @@ def test_one_comment_with_sideloaded_author(client):
     Comment.objects.create(body="Molly's comment", author=author)
     response = client.get("{}?include=author".format(reverse("comment-list")))
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": [
             {
                 "id": "1",
@@ -100,6 +109,9 @@ def test_more_comments_with_sideloaded_authors(client):
     Comment.objects.create(body="Buzz' comment", author=buzz)
     response = client.get("{}?include=author".format(reverse("comment-list")))
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": [
             {
                 "id": "1",

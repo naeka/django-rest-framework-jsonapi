@@ -17,6 +17,9 @@ def test_type_formatting(client):
     FormattingWithABBR.objects.create(unique_comment=comment)
     response = client.get(reverse("formatting-detail", args=[1]))
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": {
             "id": "1",
             "type": "formatting-with-abbr",
@@ -39,6 +42,9 @@ def test_included_query_argument_formatting(client):
     response = client.get("{}?include=unique-comment".format(
         reverse("formatting-detail", args=[1])))
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": {
             "id": "1",
             "type": "formatting-with-abbr",

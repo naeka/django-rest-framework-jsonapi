@@ -34,7 +34,8 @@ class PageNumberPagination(DrfPageNumberPagination):
                 ("prev", prev_link),
                 ("next", next_link)])),
             ("meta", OrderedDict([
-                ("count", self.page.paginator.count)])),
+                ("count", self.page.paginator.count),
+                ("total-pages", self.page.paginator.num_pages)])),
             ("data", data)
         ]))
 

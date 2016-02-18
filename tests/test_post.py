@@ -25,6 +25,9 @@ def test_person(client):
 
     assert response.status_code == 201
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": {
             "id": "1",
             "type": "person",
@@ -65,6 +68,9 @@ def test_article(client):
 
     assert response.status_code == 201
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": {
             "id": "1",
             "type": "article",

@@ -21,6 +21,9 @@ def test_valid_get_resource_type(client, settings):
     Person.objects.create(last_name="Davis", first_name="Molly")
     response = client.get(reverse("person-detail", args=[1]))
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": {
             "id": "1",
             "type": "object",

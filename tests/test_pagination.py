@@ -19,6 +19,9 @@ def test_no_pagination_if_all_results(client):
     Article.objects.create(title="Buzz' article", author=buzz)
     response = client.get(reverse("article-list"))
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": [
             {
                 "id": "1",
@@ -78,66 +81,68 @@ def test_page_number(client):
             "next": "http://testserver/articles?page%5Bnumber%5D=2"
         },
         "meta": {
-            "count": 4
+            "count": 4,
+            "total-pages": 2
         },
-        "data": {
-            "data": [
-                {
-                    "id": "1",
-                    "type": "article",
-                    "attributes": {
-                        "title": "Molly's article"
-                    },
-                    "relationships": {
-                        "author": {
-                            "data": {
-                                "id": "1",
-                                "type": "person"
-                            }
-                        },
-                        "comments": {
-                            "data": []
-                        }
-                    }
+        "jsonapi": {
+            "version": "1.0"
+        },
+        "data": [
+            {
+                "id": "1",
+                "type": "article",
+                "attributes": {
+                    "title": "Molly's article"
                 },
-                {
-                    "id": "2",
-                    "type": "article",
-                    "attributes": {
-                        "title": "Buzz' article"
-                    },
-                    "relationships": {
-                        "author": {
-                            "data": {
-                                "id": "2",
-                                "type": "person"
-                            }
-                        },
-                        "comments": {
-                            "data": []
+                "relationships": {
+                    "author": {
+                        "data": {
+                            "id": "1",
+                            "type": "person"
                         }
-                    }
-                },
-                {
-                    "id": "3",
-                    "type": "article",
-                    "attributes": {
-                        "title": "Sid's article"
                     },
-                    "relationships": {
-                        "author": {
-                            "data": {
-                                "id": "3",
-                                "type": "person"
-                            }
-                        },
-                        "comments": {
-                            "data": []
-                        }
+                    "comments": {
+                        "data": []
                     }
                 }
-            ]
-        }
+            },
+            {
+                "id": "2",
+                "type": "article",
+                "attributes": {
+                    "title": "Buzz' article"
+                },
+                "relationships": {
+                    "author": {
+                        "data": {
+                            "id": "2",
+                            "type": "person"
+                        }
+                    },
+                    "comments": {
+                        "data": []
+                    }
+                }
+            },
+            {
+                "id": "3",
+                "type": "article",
+                "attributes": {
+                    "title": "Sid's article"
+                },
+                "relationships": {
+                    "author": {
+                        "data": {
+                            "id": "3",
+                            "type": "person"
+                        }
+                    },
+                    "comments": {
+                        "data": []
+                    }
+                }
+            }
+        ]
     }
 
     next_response = client.get("http://testserver/articles?page%5Bnumber%5D=2")
@@ -149,30 +154,32 @@ def test_page_number(client):
             "next": None
         },
         "meta": {
-            "count": 4
+            "count": 4,
+            "total-pages": 2
         },
-        "data": {
-            "data": [
-                {
-                    "id": "4",
-                    "type": "article",
-                    "attributes": {
-                        "title": "Bo's article"
-                    },
-                    "relationships": {
-                        "author": {
-                            "data": {
-                                "id": "4",
-                                "type": "person"
-                            }
-                        },
-                        "comments": {
-                            "data": []
+        "jsonapi": {
+            "version": "1.0"
+        },
+        "data": [
+            {
+                "id": "4",
+                "type": "article",
+                "attributes": {
+                    "title": "Bo's article"
+                },
+                "relationships": {
+                    "author": {
+                        "data": {
+                            "id": "4",
+                            "type": "person"
                         }
+                    },
+                    "comments": {
+                        "data": []
                     }
                 }
-            ]
-        }
+            }
+        ]
     }
 
 
@@ -190,37 +197,38 @@ def test_limit_offset(client):
         "meta": {
             "count": 4
         },
-        "data": {
-            "data": [
-                {
-                    "id": "1",
-                    "type": "person",
-                    "attributes": {
-                        "first-name": "Molly",
-                        "last-name": "Davis",
-                        "twitter": ""
-                    }
-                },
-                {
-                    "id": "2",
-                    "type": "person",
-                    "attributes": {
-                        "first-name": "Buzz",
-                        "last-name": "Lightyear",
-                        "twitter": ""
-                    }
-                },
-                {
-                    "id": "3",
-                    "type": "person",
-                    "attributes": {
-                        "first-name": "Sid",
-                        "last-name": "Phillips",
-                        "twitter": ""
-                    }
+        "jsonapi": {
+            "version": "1.0"
+        },
+        "data": [
+            {
+                "id": "1",
+                "type": "person",
+                "attributes": {
+                    "first-name": "Molly",
+                    "last-name": "Davis",
+                    "twitter": ""
                 }
-            ]
-        }
+            },
+            {
+                "id": "2",
+                "type": "person",
+                "attributes": {
+                    "first-name": "Buzz",
+                    "last-name": "Lightyear",
+                    "twitter": ""
+                }
+            },
+            {
+                "id": "3",
+                "type": "person",
+                "attributes": {
+                    "first-name": "Sid",
+                    "last-name": "Phillips",
+                    "twitter": ""
+                }
+            }
+        ]
     }
     # Limit is always included since DRF 3.2 (35c28a2)
     if rest_framework.__version__.split(".")[1] >= "2":
@@ -237,19 +245,20 @@ def test_limit_offset(client):
         "meta": {
             "count": 4
         },
-        "data": {
-            "data": [
-                {
-                    "id": "4",
-                    "type": "person",
-                    "attributes": {
-                        "first-name": "Bo",
-                        "last-name": "Peep",
-                        "twitter": ""
-                    }
+        "jsonapi": {
+            "version": "1.0"
+        },
+        "data": [
+            {
+                "id": "4",
+                "type": "person",
+                "attributes": {
+                    "first-name": "Bo",
+                    "last-name": "Peep",
+                    "twitter": ""
                 }
-            ]
-        }
+            }
+        ]
     }
     # Limit is always included since DRF 3.2 (35c28a2)
     if rest_framework.__version__.split(".")[1] >= "2":
@@ -273,101 +282,50 @@ def test_cursor_and_sideloading(client):
             "next": "http://testserver/comments?include=author"
                     "&page%5Bcursor%5D=cD0z"
         },
-        "data": {
-            "data": [
-                {
-                    "id": "1",
-                    "type": "comment",
-                    "attributes": {
-                        "body": "Molly's comment"
-                    },
-                    "relationships": {
-                        "author": {
-                            "data": {
-                                "id": "1",
-                                "type": "person"
-                            }
-                        }
-                    }
-                },
-                {
-                    "id": "2",
-                    "type": "comment",
-                    "attributes": {
-                        "body": "Buzz' comment"
-                    },
-                    "relationships": {
-                        "author": {
-                            "data": {
-                                "id": "2",
-                                "type": "person"
-                            }
-                        }
-                    }
-                },
-                {
-                    "id": "3",
-                    "type": "comment",
-                    "attributes": {
-                        "body": "Sid's comment"
-                    },
-                    "relationships": {
-                        "author": {
-                            "data": {
-                                "id": "3",
-                                "type": "person"
-                            }
-                        }
-                    }
-                }
-            ],
-            "included": [
-                {
-                    "id": "1",
-                    "type": "person",
-                    "attributes": {
-                        "first-name": "Molly",
-                        "last-name": "Davis",
-                        "twitter": ""
-                    }
-                },
-                {
-                    "id": "2",
-                    "type": "person",
-                    "attributes": {
-                        "first-name": "Buzz",
-                        "last-name": "Lightyear",
-                        "twitter": ""
-                    }
-                },
-                {
-                    "id": "3",
-                    "type": "person",
-                    "attributes": {
-                        "first-name": "Sid",
-                        "last-name": "Phillips",
-                        "twitter": ""
-                    }
-                }
-            ]
-        }
-    }
-
-    next_response = client.get("http://testserver/comments?include=author"
-                               "&page%5Bcursor%5D=cD0z")
-    response_data = json.loads(next_response.content.decode())
-    assert response_data["data"] == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": [
             {
-                "id": "4",
+                "id": "1",
                 "type": "comment",
                 "attributes": {
-                    "body": "Bo's comment"
+                    "body": "Molly's comment"
                 },
                 "relationships": {
                     "author": {
                         "data": {
-                            "id": "4",
+                            "id": "1",
+                            "type": "person"
+                        }
+                    }
+                }
+            },
+            {
+                "id": "2",
+                "type": "comment",
+                "attributes": {
+                    "body": "Buzz' comment"
+                },
+                "relationships": {
+                    "author": {
+                        "data": {
+                            "id": "2",
+                            "type": "person"
+                        }
+                    }
+                }
+            },
+            {
+                "id": "3",
+                "type": "comment",
+                "attributes": {
+                    "body": "Sid's comment"
+                },
+                "relationships": {
+                    "author": {
+                        "data": {
+                            "id": "3",
                             "type": "person"
                         }
                     }
@@ -376,16 +334,66 @@ def test_cursor_and_sideloading(client):
         ],
         "included": [
             {
-                "id": "4",
+                "id": "1",
                 "type": "person",
                 "attributes": {
-                    "first-name": "Bo",
-                    "last-name": "Peep",
+                    "first-name": "Molly",
+                    "last-name": "Davis",
+                    "twitter": ""
+                }
+            },
+            {
+                "id": "2",
+                "type": "person",
+                "attributes": {
+                    "first-name": "Buzz",
+                    "last-name": "Lightyear",
+                    "twitter": ""
+                }
+            },
+            {
+                "id": "3",
+                "type": "person",
+                "attributes": {
+                    "first-name": "Sid",
+                    "last-name": "Phillips",
                     "twitter": ""
                 }
             }
         ]
     }
+
+    next_response = client.get("http://testserver/comments?include=author"
+                               "&page%5Bcursor%5D=cD0z")
+    response_data = json.loads(next_response.content.decode())
+    assert response_data["data"] == [
+        {
+            "id": "4",
+            "type": "comment",
+            "attributes": {
+                "body": "Bo's comment"
+            },
+            "relationships": {
+                "author": {
+                    "data": {
+                        "id": "4",
+                        "type": "person"
+                    }
+                }
+            }
+        }
+    ]
+    assert response_data["included"] == [
+        {
+            "id": "4",
+            "type": "person",
+            "attributes": {
+                "first-name": "Bo",
+                "last-name": "Peep",
+                "twitter": ""
+            }
+        }
+    ]
     assert response_data["links"]["prev"] in [
         "http://testserver/comments?include=author"
         "&page%5Bcursor%5D=cj0xJnA9NA%3D%3D",

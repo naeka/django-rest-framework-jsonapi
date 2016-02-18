@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from collections import OrderedDict
 from django.utils import six
 from rest_framework.views import exception_handler as drf_exception_handler
 from inflection import dasherize
@@ -50,6 +51,9 @@ def exception_handler(exc, context):
                     "status": six.text_type(response.status_code),
                 })
 
-    response.data = {"errors": errors}
+    response.data = OrderedDict([
+        ("jsonapi", OrderedDict([("version", "1.0")])),
+        ("errors", errors)
+    ])
     context['view'].is_errored = True
     return response

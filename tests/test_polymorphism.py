@@ -21,6 +21,9 @@ def test_person(client):
     response = client.get(
         reverse("individual-detail", args=[individual_obj.pk]))
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": {
             "id": "1",
             "type": "individual",
@@ -53,6 +56,9 @@ def test_person_with_sideloaded_data(client):
     response = client.get("{}?include=organization,other-organizations".format(
         reverse("individual-detail", args=[individual_obj.pk])))
     assert json.loads(response.content.decode()) == {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "data": {
             "id": "1",
             "type": "individual",
