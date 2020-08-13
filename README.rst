@@ -1,7 +1,20 @@
+
 drf-jsonapi
 ======================================
 
 |build-status-image| |pypi-version| |read-the-docs|
+
+
+⚠️ THIS PROJECT IS NOT MAINTAINED
+================================
+
+Please consider using or contributing to https://github.com/django-json-api/django-rest-framework-json-api/
+
+----
+
+.. raw:: html
+
+    <details>
 
 Overview
 --------
@@ -82,3 +95,8 @@ To build the documentation:
    :target: https://pypi.python.org/pypi/drf-jsonapi
 .. |read-the-docs| image:: https://readthedocs.org/projects/django-rest-framework-jsonapi/badge/?version=stable
    :target: http://django-rest-framework-jsonapi.rtfd.org
+
+
+.. raw:: html
+
+    </details>
